@@ -1,6 +1,6 @@
-import stateMachine.Observer
+from stateMachine import Observer
 
-class AtkObserver(stateMachine.Observer):
+class AtkObserver(Observer):
     _atkDgm = None
 
     def __init__(self, p: Entity, e: Entity) -> None:

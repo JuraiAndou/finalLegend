@@ -7,7 +7,7 @@ class Enemy(Entity):
     def execute(self):
         return super().execute()
     
-    def addObserver(self, observer: Observer) - > None:
+    def addObserver(self, observer: Observer) -> None:
         self.obs.append(observer)
     
     def removeObserver (self, observer: Observer) -> None:

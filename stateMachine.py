@@ -4,6 +4,9 @@ from abc import ABC, abstractmethod
 class Agent:
     pass
 
+class Observer:
+    pass
+
 class State(ABC):
     @property
     def agent(self) -> Agent:
@@ -57,5 +60,5 @@ class Entity(Agent):
 class Observer(ABC):
 
     @abstractmethod
-    def update(self, subject: Subject) -> None:
+    def update(self, agent: Agent) -> None:
         pass
