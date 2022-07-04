@@ -1,6 +1,6 @@
 from __future__ import annotations
 from stateMachine import *
-from states import *
+from enetityStates import *
 from enemy import Enemy
 
 def main():
