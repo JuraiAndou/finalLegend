@@ -39,6 +39,7 @@ class Entity(Agent):
     def __init__(self, state: State, lp: int, dmg: int, mp: int) -> None:
         super().__init__(state)
         self.maxLife = lp
+        self.maxMana = mp
         self.life = lp
         self.damage = dmg
         self.mana = mp
