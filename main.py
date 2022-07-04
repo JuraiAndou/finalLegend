@@ -3,9 +3,12 @@ from stateMachine import *
 from enetityStates import *
 from enemy import Enemy
 from player import Player
+from observers import *
 
 enemy = Enemy(waitState(), lp=100, dmg=5, mp=80)
-player = Player(deathState(), lp=100, dmg=5, mp=80)
+player = Player(AtkState(), lp=100, dmg=5, mp=80)
+atkObs = AtkObserver(player, enemy)
+player.addObserver(atkObs)
 
 def main():
     while (True):

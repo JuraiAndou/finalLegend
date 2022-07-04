@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Agent:
     pass
 
@@ -37,5 +38,24 @@ class Entity(Agent):
         self.life = lp
         self.damage = dmg
         self.mana = mp
+
     def execute(self):
         return super().execute()
+    
+    @abstractmethod
+    def addObserver (self, observer: Observer) -> None:
+        pass
+    
+    @abstractmethod
+    def removeObserver (self, observer: Observer) -> None:
+        pass
+    
+    @abstractmethod
+    def notify(self) -> None:
+        pass
+
+class Observer(ABC):
+
+    @abstractmethod
+    def update(self, subject: Subject) -> None:
+        pass

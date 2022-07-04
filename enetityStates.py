@@ -50,7 +50,7 @@ class AtkState(State):
     def execute(self) -> None:
         print(f"{type(self.agent).__name__} is attacking!")
         input("Press enter")
-        self.agent.changeState(waitState())
+        self.agent.notify()
 
 class healState(State):
     def execute(self) -> None:
