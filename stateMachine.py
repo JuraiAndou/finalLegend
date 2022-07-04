@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 
-
 class Agent:
     pass
 
-class Observer:
-    pass
+class Observer(ABC):
+    @abstractmethod
+    def update(self, agent: Agent) -> None:
+        pass
 
 class State(ABC):
     @property
@@ -28,7 +29,6 @@ class Agent:
         self.changeState(state)
 
     def changeState(self, state: State):
-        #print(f"Agent: {type(self).__name__} Transitioning to {type(state).__name__}")
         self._state = state
         self._state.agent = self
     
@@ -38,6 +38,7 @@ class Agent:
 class Entity(Agent):
     def __init__(self, state: State, lp: int, dmg: int, mp: int) -> None:
         super().__init__(state)
+        self.maxLife = lp
         self.life = lp
         self.damage = dmg
         self.mana = mp
@@ -57,8 +58,3 @@ class Entity(Agent):
     def notify(self) -> None:
         pass
 
-class Observer(ABC):
-
-    @abstractmethod
-    def update(self, agent: Agent) -> None:
-        pass

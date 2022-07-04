@@ -6,9 +6,13 @@ from player import Player
 from observers import *
 
 enemy = Enemy(waitState(), lp=100, dmg=5, mp=80)
-player = Player(AtkState(), lp=100, dmg=5, mp=80)
-atkObs = AtkObserver(player, enemy)
-player.addObserver(atkObs)
+player = Player(playerTurn(), lp=100, dmg=5, mp=80)
+
+atkEnemyObs = AtkObserver(enemy)
+atkPlayerObs = AtkObserver(Player)
+
+player.addObserver(atkEnemyObs)
+enemy.addObserver(atkPlayerObs)
 
 def main():
     while (True):

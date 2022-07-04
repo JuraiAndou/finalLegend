@@ -1,14 +1,16 @@
-from stateMachine import Observer
+from stateMachine import *
+from enetityStates import *
 
 class AtkObserver(Observer):
     _atkDgm = None
 
-    def __init__(self, p: Entity, e: Entity) -> None:
-        self._atkDgm = dmg
-        self.player = p
-        self.enemy = e
+    def __init__(self, entity: Entity) -> None:
+        self._atkDgm = 5
+        self.target = entity
 
-    def update(self):
-        print(f"{type(self.agent).__name__} given " + str(self._atkDgm) + " damage!")
 
+    def update(self, agent: Agent):
+        print(f"{type(agent).__name__} given " + str(self._atkDgm) + " damage! in " + f"{type(self.target).__name__}")
+        self.target.changeState(damageState(self._atkDgm))
+        
     

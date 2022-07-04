@@ -51,10 +51,18 @@ class AtkState(State):
         print(f"{type(self.agent).__name__} is attacking!")
         input("Press enter")
         self.agent.notify()
+        self.agent.changeState(waitState())
 
 class healState(State):
     def execute(self) -> None:
         print(f"{type(self.agent).__name__} is healing!")
-        self.agent.life += 3
+
+        if self.agent.life < self.agent.maxLife:
+            self.agent.life += 3
+        elif self.agent.life == self.agent.maxLife: 
+            print("Não é possivel curar")
+        elif self.agent.life >self.agent.maxLife:
+            self.agent.life = self.agent.maxLife
+
         input("Press enter")
         self.agent.changeState(waitState())
