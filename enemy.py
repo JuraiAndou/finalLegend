@@ -6,6 +6,10 @@ class Enemy(Entity):
     def __init__(self, state: State, lp: int, dmg: int, mp: int) -> None:
         super().__init__(state, lp, dmg, mp)
 
+    def addFuzz(self, atkFz, cureFz):
+        self.atkFuzz = atkFz
+        self.cureFuzz = cureFz
+
     def execute(self):
         return super().execute()
     
@@ -16,5 +20,5 @@ class Enemy(Entity):
         self.obs.remove(observer)
     
     def notify(self) -> None:
-        for observer in self._observers:
+        for observer in self.obs:
             observer.update(self)

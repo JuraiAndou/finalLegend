@@ -3,11 +3,13 @@ from stateMachine import State
 
 class enemyTurn(State):#Enemy turn control
     def execute(self) -> None:
-        diceRoll = random.choice([AtkState(), healState()])#Fuzzy here
+        if self.agent.atkFuzz.defuzzify() >= self.agent.cureFuzz.defuzzify():
+            self.agent.changeState((AtkState()))
+        else:
+            self.agent.changeState((healState()))
         print(f"{type(self.agent).__name__} is on his turn!")
-        print(f"{type(self.agent).__name__} is changing state to {type(diceRoll).__name__}...")
+        print(f"{type(self.agent).__name__} is changing state to {type(self.agent._state).__name__}...")
         input("Press enter")
-        self.agent.changeState(diceRoll)
 
 class playerTurn(State):#Player turn control
     def execute(self) -> None:

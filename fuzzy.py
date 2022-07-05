@@ -1,34 +1,16 @@
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
+from enemy import *
+from player import *
 
-"""
-quality = ctrl.Antecedent(np.arange(0,11,1), 'quality')
-service = ctrl.Antecedent(np.arange(0,11,1), 'service')
-tip = ctrl.Consequent(np.arange(0,101,1), 'tip')
-
-quality.automf(3)
-service.automf(3)
-
-tip['low'] = fuzz.trimf(tip.universe, [0, 0, 50])
-tip['average'] = fuzz.trimf(tip.universe, [0, 75 ,100])
-tip['high'] = fuzz.trimf(tip.universe, [50 ,100, 100])
-
-rule1 = ctrl.Rule(quality['poor'] & service['poor'], tip['low'])
-rule2 = ctrl.Rule(quality['average'] & service['average'], tip['average'])
-rule3 = ctrl.Rule(quality['good'] & service['good'], tip['high'])
-
-tipping_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
-tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
-
-tipping.input['quality'] = 6.5
-tipping.input['service'] = 9.8
-tipping.compute()
-"""
 class FuzzAttack:
-    def __init__(self, enemyMaxLP, playerMaxLP) -> None:
-        self._enemyLP = ctrl.Antecedent(np.arange(0, enemyMaxLP, 1), 'enemyLP')
-        self._playerLP = ctrl.Antecedent(np.arange(0, playerMaxLP, 1), 'playerLP')
+    def __init__(self, enemy: Enemy, player: Player) -> None:
+        self._player = player
+        self._enemy = enemy
+
+        self._enemyLP = ctrl.Antecedent(np.arange(0, enemy.maxLife, 1), 'enemyLP')
+        self._playerLP = ctrl.Antecedent(np.arange(0, player.maxLife, 1), 'playerLP')
         self._desire = ctrl.Consequent(np.arange(0,101,1), 'desire')
 
         self._enemyLP.automf(3, 'quant')
@@ -53,16 +35,17 @@ class FuzzAttack:
         self.defuzz_ctrl = ctrl.ControlSystem([self.rule1,self.rule2,self.rule3,self.rule4,self.rule5,self.rule6,self.rule7,self.rule8,self.rule9])
         self.defuzz = ctrl.ControlSystemSimulation(self.defuzz_ctrl)
 
-    def defuzzify(self, enemyLP, playerLP):
-        self.defuzz.input['enemyLP'] = enemyLP
-        self.defuzz.input['playerLP'] = playerLP
+    def defuzzify(self):
+        self.defuzz.input['enemyLP'] = self._enemy.life
+        self.defuzz.input['playerLP'] = self._player.life
         self.defuzz.compute()
         return self.defuzz.output['desire']
 
 class FuzzHeal:
-    def __init__(self, enemyMaxLP, maxMana) -> None:
-        self._enemyLP = ctrl.Antecedent(np.arange(0, enemyMaxLP, 1), 'enemyLP')
-        self._enemyMP = ctrl.Antecedent(np.arange(0, maxMana, 1), 'enemyMP')
+    def __init__(self, enemy: Enemy) -> None:
+        self._enemy = enemy
+        self._enemyLP = ctrl.Antecedent(np.arange(0, enemy.maxLife, 1), 'enemyLP')
+        self._enemyMP = ctrl.Antecedent(np.arange(0, enemy.mana, 1), 'enemyMP')
         self._desire = ctrl.Consequent(np.arange(0,101,1), 'desire')
 
         self._enemyLP.automf(3, 'quant')
@@ -87,8 +70,8 @@ class FuzzHeal:
         self.defuzz_ctrl = ctrl.ControlSystem([self.rule1,self.rule2,self.rule3,self.rule4,self.rule5,self.rule6,self.rule7,self.rule8,self.rule9])
         self.defuzz = ctrl.ControlSystemSimulation(self.defuzz_ctrl)
 
-    def defuzzify(self, enemyLP, enemyMP):
-        self.defuzz.input['enemyLP'] = enemyLP
-        self.defuzz.input['enemyMP'] = enemyMP
+    def defuzzify(self):
+        self.defuzz.input['enemyLP'] = self._enemy.life
+        self.defuzz.input['enemyMP'] = self._enemy.mana
         self.defuzz.compute()
         return self.defuzz.output['desire']
