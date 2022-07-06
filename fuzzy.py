@@ -10,7 +10,7 @@ class FuzzAttack:
         self._player = player
         self._enemy = enemy
 
-        #grafico 
+        
         self._enemyLP = ctrl.Antecedent(np.arange(0, enemy.maxLife, 1), 'enemyLP')
         self._playerLP = ctrl.Antecedent(np.arange(0, player.maxLife, 1), 'playerLP')
         self._desire = ctrl.Consequent(np.arange(0,101,1), 'desire')
@@ -56,8 +56,8 @@ class FuzzHeal:
 
         self._enemyLP.automf(3, 'quant')
         self._enemyMP.automf(3, 'quant')
-
-        #grafico
+        
+        #grafico de desejabilidade
         self._desire['low'] = fuzz.trimf(self._desire.universe, [0,0,50])
         self._desire['average'] = fuzz.trimf(self._desire.universe, [0,50,100])
         self._desire['high'] = fuzz.trimf(self._desire.universe, [50,100,100])
