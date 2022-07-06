@@ -57,7 +57,7 @@ class FuzzHeal:
         
         self.rule1 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['high'], self._desire['high'])
         self.rule2 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['average'], self._desire['high'])
-        self.rule3 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['low'], self._desire['average'])
+        self.rule3 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['low'], self._desire['low'])
 
         self.rule4 = ctrl.Rule(self._enemyLP['average'] & self._enemyMP['high'], self._desire['average'])
         self.rule5 = ctrl.Rule(self._enemyLP['average'] & self._enemyMP['average'], self._desire['average'])
