@@ -1,5 +1,9 @@
 from abc import ABC, abstractmethod
 
+#abaixo estão as classes baseados no padrão state
+#A também a classe do padrão observer
+#sendo assim, vale lembrar que, como há o padrão observer inclusido no projeto, as classes state agent irão ter as funções deste padrão.
+
 class Agent:
     pass
 

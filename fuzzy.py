@@ -4,6 +4,7 @@ from skfuzzy import control as ctrl
 from enemy import *
 from player import *
 
+#o fuzzy de ataque se basea na vida do jogador e na vida do inimigo para saber o quanto ele quer atacar
 class FuzzAttack:
     def __init__(self, enemy: Enemy, player: Player) -> None:
         self._player = player
@@ -16,10 +17,12 @@ class FuzzAttack:
         self._enemyLP.automf(3, 'quant')
         self._playerLP.automf(3, 'quant')
 
+        #grafico
         self._desire['low'] = fuzz.trimf(self._desire.universe, [0,0,35])
         self._desire['average'] = fuzz.trimf(self._desire.universe, [25,35,55])
         self._desire['high'] = fuzz.trimf(self._desire.universe, [55,100,100])
         
+        #regras fuzzy para a vontade de querer atacar
         self.rule1 = ctrl.Rule(self._enemyLP['low'] & self._playerLP['high'], self._desire['low'])
         self.rule2 = ctrl.Rule(self._enemyLP['low'] & self._playerLP['average'], self._desire['low'])
         self.rule3 = ctrl.Rule(self._enemyLP['low'] & self._playerLP['low'], self._desire['average'])
@@ -41,6 +44,8 @@ class FuzzAttack:
         self.defuzz.compute()
         return self.defuzz.output['desire']
 
+
+#o fuzzy de cura se besea na mana e na vida apra saber o quanto o jogador quer se curar
 class FuzzHeal:
     def __init__(self, enemy: Enemy) -> None:
         self._enemy = enemy
@@ -51,10 +56,12 @@ class FuzzHeal:
         self._enemyLP.automf(3, 'quant')
         self._enemyMP.automf(3, 'quant')
 
+        #grafico
         self._desire['low'] = fuzz.trimf(self._desire.universe, [0,0,50])
         self._desire['average'] = fuzz.trimf(self._desire.universe, [0,50,100])
         self._desire['high'] = fuzz.trimf(self._desire.universe, [50,100,100])
         
+        #regras fuzzy para a vontade de querer curar
         self.rule1 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['high'], self._desire['high'])
         self.rule2 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['average'], self._desire['high'])
         self.rule3 = ctrl.Rule(self._enemyLP['low'] & self._enemyMP['low'], self._desire['low'])
