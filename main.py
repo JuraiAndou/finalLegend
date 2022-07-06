@@ -1,4 +1,5 @@
 from __future__ import annotations
+from tracemalloc import stop
 from stateMachine import *
 from enetityStates import *
 from enemy import Enemy
@@ -42,22 +43,28 @@ def turn():
         painel()
         
     player.execute()#o execute do jogador estar entre os teste pois como ele começa primeiro, o "passo" dele é adiantado, precisando assim atulizar antes do teste de fim de turno.
+    
+    #testa de o jogagor estar morto e ecessera o game
+    if(f"{type(player._state).__name__}" == "deathState"):
+            print("GameOver!!!!")
+            quit()
 
     if f"{type(enemy._state).__name__}" == 'endTurn':
         player.changeState(playerTurn())
         painel()
+        
     enemy.execute()
+
+    #testa se o inimigo morreu e escerra o game
+    if(f"{type(enemy._state).__name__}" == "deathState"):
+            print("You Won")
+            quit()
    
 
 #gameloop
 def main():
     while (True):
-        if(f"{type(player._state).__name__}" == "deathState"):
-            print("GameOver!!!!")
-            break
         turn()
-        if(f"{type(enemy._state).__name__}" == "deathState"):
-            print("You Won")
-            break
+
 if __name__ == '__main__':
     main()

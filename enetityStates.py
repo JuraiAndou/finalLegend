@@ -11,12 +11,11 @@ class enemyTurn(State):
                 self.agent.changeState((AtkState()))
             else:
                 self.agent.changeState((healState()))
-                
-            print(f"{type(self.agent).__name__} is on his turn!")
-            print(f"{type(self.agent).__name__} is changing state to {type(self.agent._state).__name__}...")
         else:
             self.agent.changeState((AtkState()))
         
+        print(f"{type(self.agent).__name__} is on his turn!")
+        print(f"{type(self.agent).__name__} is changing state to {type(self.agent._state).__name__}...")
         input("enter to skip phase")
         print("________________________________________________________________________________________")
         
@@ -68,10 +67,11 @@ class damageState(State):
         self.agent.life -= self._recivedDgm
 
         #testa de a vida é maior que zero para definir se está no deathState ou não.
-        if self.agent.life < 0:
+        if self.agent.life <= 0:
             self.agent.changeState(deathState())
         else:
             self.agent.changeState(waitState())
+
         input("enter to skip phase")
         print("________________________________________________________________________________________")
 
